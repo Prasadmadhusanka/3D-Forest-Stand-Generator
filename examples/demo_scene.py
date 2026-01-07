@@ -20,13 +20,28 @@ stand = generate_stand(
     plot_width=20,
     plot_length=20,
     n_trees=len(tree_params_list),
-    placement='random',
+    placement='uniform',
     tree_params=tree_params_list
 )
+
+# import numpy as np
+# import json
+
+# class NumpyEncoder(json.JSONEncoder):
+#     def default(self, obj):
+#         if isinstance(obj, np.ndarray):
+#             return obj.tolist()
+#         return super().default(obj)
+
+# json_output_path = HERE / "forest_stand.json"
+# with open(json_output_path, "w") as f:
+#     json.dump(stand, f, indent=4, cls=NumpyEncoder)
+
+# print(f"Forest stand saved to {json_output_path}")
 
 
 # Visualize
 plot_forest_stand_plotly(stand)
 
 # Export to CSV
-export_forest_stand_to_csv(stand, "forest_stand.csv")
+# export_forest_stand_to_csv(stand, "forest_stand.csv")
