@@ -3,8 +3,8 @@
 import json
 from pathlib import Path
 from forest_stand_generator.stand import generate_stand
-from forest_stand_generator.visualization import plot_forest_stand_plotly, plot_forest_top_view
-from forest_stand_generator.export import export_forest_stand_to_csv
+from forest_stand_generator.visualization import plot_forest_stand, plot_forest_top_view
+from forest_stand_generator.export import export_forest_stand_to_csv, export_forest_stand_to_json
 
 # Path to this file's directory
 HERE = Path(__file__).resolve().parent
@@ -24,25 +24,15 @@ stand = generate_stand(
     tree_params=tree_params_list
 )
 
-# import numpy as np
-# import json
 
-# class NumpyEncoder(json.JSONEncoder):
-#     def default(self, obj):
-#         if isinstance(obj, np.ndarray):
-#             return obj.tolist()
-#         return super().default(obj)
+# Visualize as 3D
+plot_forest_stand(stand)
 
-# json_output_path = HERE / "forest_stand.json"
-# with open(json_output_path, "w") as f:
-#     json.dump(stand, f, indent=4, cls=NumpyEncoder)
-
-# print(f"Forest stand saved to {json_output_path}")
-
-
-# Visualize
-# plot_forest_stand_plotly(stand)
-plot_forest_top_view(stand)
+# Visualize as 2D (top View)
+# plot_forest_top_view(stand)
 
 # Export to CSV
-# export_forest_stand_to_csv(stand, "forest_stand.csv")
+export_forest_stand_to_csv(stand, "forest_stand.csv")
+
+# Export to JSON
+export_forest_stand_to_json(stand, "forest_stand.json")

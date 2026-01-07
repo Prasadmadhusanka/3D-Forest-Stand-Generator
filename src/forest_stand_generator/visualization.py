@@ -1,7 +1,7 @@
 import numpy as np
 import plotly.graph_objects as go
 
-def plot_forest_stand_plotly(stand, resolution=20):
+def plot_forest_stand(stand, resolution=20):
     fig = go.Figure()
 
     # -----------------------------
