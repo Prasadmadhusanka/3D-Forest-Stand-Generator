@@ -1,0 +1,7 @@
+# Ignore Python cache folders
+examples/__pycache__/
+src/forest_stand_generator/__pycache__/
+tests/__pycache__/
+
+# Ignore egg-info folder
+src/forest_stand_generator.egg-info/

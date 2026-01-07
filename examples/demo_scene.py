@@ -10,7 +10,7 @@ from forest_stand_generator.export import export_forest_stand_to_csv, export_for
 HERE = Path(__file__).resolve().parent
 
 # Load per-tree parameters from JSON
-json_path = HERE / "trees06.json"
+json_path = HERE / "trees10.json"
 with open(json_path, "r") as f:
     tree_params_list = json.load(f)
 
@@ -32,7 +32,7 @@ plot_forest_stand(stand)
 # plot_forest_top_view(stand)
 
 # Export to CSV
-export_forest_stand_to_csv(stand, "forest_stand.csv")
+# export_forest_stand_to_csv(stand, "forest_stand.csv")
 
 # Export to JSON
-export_forest_stand_to_json(stand, "forest_stand.json")
+# export_forest_stand_to_json(stand, "forest_stand.json")

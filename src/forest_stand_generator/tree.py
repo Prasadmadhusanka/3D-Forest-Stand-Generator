@@ -4,9 +4,6 @@ import numpy as np
 from typing import Dict, List
 
 
-
-import numpy as np
-
 def sample_leaf_normal(distribution: str) -> np.ndarray:
     """
         Sample a 3D leaf normal vector according to a specified leaf angle distribution.
@@ -147,7 +144,6 @@ def sample_point_in_crown(
 
     else:
         raise ValueError("Unsupported crown shape")
-
 
 
 
