@@ -9,26 +9,39 @@ import numpy as np
 
 def sample_leaf_normal(distribution: str) -> np.ndarray:
     """
-    Sample a leaf normal vector based on a specified leaf angle distribution.
+        Sample a 3D leaf normal vector according to a specified leaf angle distribution.
 
-    Parameters
-    ----------
-    distribution : str
-        The leaf angle distribution type. Supported values are:
-        - "uniform" or "spherical": random direction on the unit sphere.
-        - "planophile": leaves mostly horizontal (z-axis).
-        - "erectophile": leaves mostly vertical (x-axis).
+        The leaf normal vector represents the orientation of a leaf in 3D space
+        and is returned as a unit vector [x, y, z].
 
-    Returns
-    -------
-    np.ndarray
-        A 3-element array representing the sampled leaf normal vector [x, y, z].
+        Parameters
+        ----------
+        distribution : str
+            Leaf angle distribution type. Supported values:
+            - "uniform" or "spherical": samples a random direction uniformly
+            over the surface of the unit sphere.
+            - "planophile": leaves are mostly horizontal, with the normal pointing
+            upward along the z-axis ([0, 0, 1]).
+            - "erectophile": leaves are mostly vertical, with the normal pointing
+            along the x-axis ([1, 0, 0]).
 
-    Raises
-    ------
-    ValueError
-        If an unknown distribution type is provided.
-    """
+        Returns
+        -------
+        np.ndarray
+            A 3-element unit vector [x, y, z] representing the leaf normal.
+
+        Raises
+        ------
+        ValueError
+            If an unknown distribution type is provided.
+
+        Notes
+        -----
+        - For "uniform"/"spherical", the returned vector is a random point on the
+        unit sphere, representing a completely random leaf orientation.
+        - For "planophile" and "erectophile", the returned vector is fixed along
+        the principal axis (z or x) and not random.
+        """
     if distribution in ("uniform", "spherical"):
         # Random direction on unit sphere
         phi = np.random.uniform(0, 2 * np.pi)
@@ -61,35 +74,49 @@ def sample_point_in_crown(
     radius: float
 ) -> np.ndarray:
     """
-    Sample a random point inside a tree crown volume.
+    Sample a random point inside a tree crown volume of a specified shape.
+
+    The function generates a 3D point [x, y, z] randomly distributed inside
+    the crown volume. The crown shapes can be spherical, cylindrical, or conical.
 
     Parameters
     ----------
     shape : str
-        The shape of the crown. Supported values are:
-        - "sphere": a full spherical crown centered at the origin,
-        scaled in the z-direction to match the given height.
-        - "sphere_w_LH": a spherical crown **without the lower hemisphere**
-        (i.e., only the upper half of the sphere is used), scaled in the
-        z-direction to match the given height.
-        - "cylinder": a cylindrical crown with constant radius.
-        - "cone": a conical crown tapering linearly to zero radius at the top.
+        Shape of the crown. Supported values:
+        - "sphere": full spherical crown centered at the origin, scaled in the
+          z-direction to match the specified height.
+        - "sphere_w_LH": spherical crown without the lower hemisphere (upper half only),
+          scaled in the z-direction to match the specified height.
+        - "cylinder": cylindrical crown with constant radius in the xy-plane
+          and height along the z-axis.
+        - "cone": conical crown tapering linearly from the base radius to zero
+          at the top along the z-axis.
     height : float
-        The height of the crown (z-direction). For spherical crowns, the z-coordinates
-        are scaled so the total vertical extent equals this height.
+        Vertical extent of the crown along the z-axis. For spherical crowns,
+        z-coordinates are scaled so that the total height equals this value.
     radius : float
-        The maximum radius of the crown in the xy-plane.
+        Maximum horizontal radius of the crown in the xy-plane.
 
     Returns
     -------
     np.ndarray
-        A 3-element array representing the coordinates [x, y, z] of a point
+        A 3-element array [x, y, z] representing the coordinates of a point
         randomly sampled inside the crown volume.
 
     Raises
     ------
     ValueError
         If an unsupported crown shape is provided.
+
+    Notes
+    -----
+    - For "sphere" and "sphere_w_LH", the point is sampled uniformly inside a
+      unit sphere, then scaled to match the crown height.
+    - For "sphere_w_LH", only the upper hemisphere (z ≥ 0) is used.
+    - For "cylinder" and "cone", radial distance is sampled using sqrt(rand)
+      to ensure uniform density across the cross-sectional area.
+    - This function assumes the crown is centered at the origin and extends
+      along the positive z-axis.
     """
     if shape == "sphere":
         while True:
@@ -138,45 +165,56 @@ def generate_tree(
     position: List[float]
 ) -> Dict:
     """
-    Generate a single tree model with trunk and leaves.
+    Generate a single 3D tree model with trunk and leaves.
+
+    The function creates a trunk and distributes leaves within the crown
+    volume. Leaf positions and orientations are sampled according to the
+    crown shape and leaf angle distribution. The total number of leaves is
+    derived from the leaf area index (LAI).
 
     Parameters
     ----------
     trunk_height : float
-        Height of the tree trunk.
+        Height of the tree trunk (same units as position and crown dimensions).
     trunk_radius : float
         Radius of the tree trunk.
     crown_shape : str
-        Shape of the crown. Supported: "sphere", "cylinder", "cone".
+        Shape of the crown. Supported values: "sphere", "sphere_w_LH", "cylinder", "cone".
     crown_height : float
-        Height of the crown (vertical extent).
+        Vertical extent of the crown from its base.
     crown_radius : float
-        Maximum radius of the crown in the horizontal plane.
+        Maximum horizontal radius of the crown.
     lai : float
-        Leaf area index. Determines the number of leaves as
-        (LAI * crown area) / leaf area.
+        Leaf area index, used to calculate the number of leaves as:
+        n_leaves = (LAI * crown area) / leaf area.
     leaf_radius : float
         Radius of individual leaves.
     leaf_angle_distribution : str
-        Leaf angle distribution. Supported: "uniform", "spherical",
-        "planophile", "erectophile".
+        Leaf orientation distribution. Supported values:
+        "uniform", "spherical", "planophile", "erectophile".
     position : List[float]
-        [x, y, z] coordinates of the tree base.
+        [x, y, z] coordinates of the tree base in world space.
 
     Returns
     -------
     Dict
-        A dictionary with two keys:
-        - "trunk": dictionary containing trunk "base", "height", and "radius".
-        - "leaves": list of dictionaries, each with "center" (position),
-          "radius", and "normal" (leaf orientation vector).
+        A dictionary representing the tree with keys:
+        - "trunk": dictionary with keys
+            - "base": 3-element array of the trunk base position [x, y, z].
+            - "height": trunk height.
+            - "radius": trunk radius.
+        - "leaves": list of dictionaries, each with keys
+            - "center": 3-element array of leaf position [x, y, z].
+            - "radius": leaf radius.
+            - "normal": 3-element array representing leaf orientation.
 
     Notes
     -----
-    - Leaf positions are randomly sampled within the crown volume based on
-      `crown_shape`.
+    - Leaf positions are sampled randomly inside the crown volume based on `crown_shape`.
     - Leaf normals are sampled according to `leaf_angle_distribution`.
-    - The total number of leaves is computed from LAI and leaf/crown areas.
+    - Crown base is positioned at the top of the trunk.
+    - Number of leaves is computed from LAI and crown/leaf areas.
+    - All positions are returned in world coordinates relative to the tree base.
     """
     # Trunk
     trunk = {

@@ -3,7 +3,7 @@ name = "forest_stand_generator"
 version = "0.1.0"
 description = "A simple Python package to generate 3D forest stands for radiative transfer simulations."
 authors = [
-    {name = "Your Name", email = "you@example.com"}
+    {name = "Prasad Madushanka Dauglas Dambure Liyanage", email = "prasad.dream13@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -11,7 +11,7 @@ license = {text = "MIT"}
 keywords = ["forest", "3D", "LAI", "tree", "canopy", "simulation"]
 
 [project.urls]
-"Homepage" = "https://github.com/yourusername/forest_stand_generator"
+"Homepage" = "https://github.com/Prasadmadhusanka/forest_stand_generator"
 
 [build-system]
 requires = ["setuptools>=61.0"]

@@ -3,7 +3,8 @@
 import json
 from pathlib import Path
 from forest_stand_generator.stand import generate_stand
-from forest_stand_generator.visualization import export_forest_stand_to_csv, plot_forest_stand_plotly
+from forest_stand_generator.visualization import plot_forest_stand_plotly
+from forest_stand_generator.export import export_forest_stand_to_csv
 
 # Path to this file's directory
 HERE = Path(__file__).resolve().parent
@@ -28,4 +29,4 @@ stand = generate_stand(
 plot_forest_stand_plotly(stand)
 
 # Export to CSV
-# export_forest_stand_to_csv(stand, "forest_stand.csv")
+export_forest_stand_to_csv(stand, "forest_stand.csv")
