@@ -49,7 +49,6 @@
     "leaf_radius": 0.11,
     "leaf_angle_distribution": "erectophile"
   },
-
   {
     "trunk_height": 5.0,
     "trunk_radius": 0.2,
@@ -100,7 +99,6 @@
     "leaf_radius": 0.09,
     "leaf_angle_distribution": "uniform"
   },
-
   {
     "trunk_height": 6.1,
     "trunk_radius": 0.25,
@@ -151,7 +149,6 @@
     "leaf_radius": 0.09,
     "leaf_angle_distribution": "planophile"
   },
-
   {
     "trunk_height": 5.7,
     "trunk_radius": 0.23,
