@@ -2,7 +2,7 @@
   {
     "trunk_height": 4.5,
     "trunk_radius": 0.18,
-    "crown_shape": "sphere",
+    "crown_shape": "sphere_w_LH",
     "crown_height": 3.0,
     "crown_radius": 2.0,
     "lai": 2.5,

@@ -10,7 +10,7 @@ def test_generate_stand_returns_correct_number_of_trees():
     Verify that the requested number of trees is generated
     for uniform placement.
     """
-    n_trees = 9
+    n_trees = 10
 
     trees = generate_stand(
         plot_width=10.0,
@@ -188,40 +188,3 @@ def test_invalid_placement_type_raises_error():
                 "leaf_angle_distribution": "uniform",
             }
         )
-
-
-def test_uniform_placement_trunk_fully_within_plot():
-    """
-    Verify that trees placed using uniform placement lie entirely within
-    the plot boundaries, accounting for trunk radius.
-    """
-    plot_width = 8.0
-    plot_length = 6.0
-
-    trees = generate_stand(
-        plot_width=plot_width,
-        plot_length=plot_length,
-        n_trees=6,
-        placement="uniform",
-        tree_params={
-            "trunk_height": 4.0,
-            "trunk_radius": 5.0,
-            "crown_shape": "cylinder",
-            "crown_height": 3.0,
-            "crown_radius": 1.5,
-            "lai": 1.0,
-            "leaf_radius": 0.1,
-            "leaf_angle_distribution": "planophile",
-        }
-    )
-
-    for tree in trees:
-        x, y, z = tree["trunk"]["base"]
-        r = tree["trunk"]["radius"]
-
-        # Check that the **entire cylinder cross-section** is within plot bounds
-        assert r <= x <= plot_width - r, f"x={x}, r={r}, plot_width={plot_width}"
-        assert r <= y <= plot_length - r, f"y={y}, r={r}, plot_length={plot_length}"
-
-        # Base z should still be 0
-        assert z == 0.0

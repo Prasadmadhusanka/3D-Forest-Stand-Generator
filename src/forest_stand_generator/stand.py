@@ -4,6 +4,7 @@ import numpy as np
 from typing import List, Dict, Optional, Union
 from .tree import generate_tree
 
+
 def generate_stand(
     plot_width: float,
     plot_length: float,
@@ -13,50 +14,46 @@ def generate_stand(
     min_spacing: float = 1.0
 ) -> List[Dict]:
     """
-        Generate a forest stand (collection of trees) on a rectangular plot.
+    Generate a forest stand (collection of trees) on a rectangular plot.
 
-        Parameters
-        ----------
-        plot_width : float
-            Width of the rectangular plot (x-direction, in meters or desired units).
-        plot_length : float
-            Length of the rectangular plot (y-direction, in meters or desired units).
-        n_trees : int
-            Total number of trees to generate.
-        placement : str, optional
-            Placement strategy for trees. Options are:
-            - "uniform": trees are placed in a regular grid across the plot.
-            - "random": trees are placed randomly with minimum spacing enforced.
-            Default is "uniform".
-        tree_params : dict or list of dict, optional
-            Parameters for tree generation, passed to `generate_tree`.
-            - dict: same parameters applied to all trees.
-            - list of dicts: a separate parameter set for each tree. Length must equal `n_trees`.
-            Default is None (empty dict for all trees).
-        min_spacing : float, optional
-            Minimum distance between trees (only used for "random" placement). Default is 1.0.
+    Parameters
+    ----------
+    plot_width : float
+        Width of the rectangular plot (x-direction, in meters or desired units).
+    plot_length : float
+        Length of the rectangular plot (y-direction, in meters or desired units).
+    n_trees : int
+        Total number of trees to generate.
+    placement : str, optional
+        Placement strategy for trees. Options:
+        - "uniform": trees are placed in a regular grid across the plot.
+        - "random": trees are placed randomly with minimum spacing enforced.
+        Default is "uniform".
+    tree_params : dict or list of dict, optional
+        Parameters for tree generation, passed to `generate_tree`.
+        - dict: same parameters applied to all trees.
+        - list of dicts: a separate parameter set for each tree. Length must equal n_trees.
+        Default is None (empty dict for all trees).
+    min_spacing : float, optional
+        Minimum distance between trees (only used for "random" placement). Default is 1.0.
 
-        Returns
-        -------
-        List[Dict]
-            List of tree dictionaries, each representing a generated tree with its position
-            and attributes.
+    Returns
+    -------
+    List[Dict]
+        List of tree dictionaries, each representing a generated tree with its position and attributes.
 
-        Notes
-        -----
-        - For "uniform" placement, the function tries to arrange trees in a grid as close to
-        square as possible.
-        - For "random" placement, if the requested number of trees cannot fit with the given
-        `min_spacing`, fewer trees may be generated, and a warning is printed.
-        - The z-coordinate of all tree positions is set to 0.0 by default.
-        """
-
+    Notes
+    -----
+    - For "uniform" placement, the function tries to arrange trees in a grid as close to square as possible.
+    - For "random" placement, if the requested number of trees cannot fit with the given `min_spacing`, 
+      fewer trees may be generated, and a warning is printed.
+    - The z-coordinate of all tree positions is set to 0.0 by default.
+    """
     if tree_params is None:
         tree_params = {}
 
     # Detect per-tree parameter list
     per_tree_params = isinstance(tree_params, list)
-
     if per_tree_params and len(tree_params) != n_trees:
         raise ValueError(
             "When tree_params is a list, its length must equal n_trees"
