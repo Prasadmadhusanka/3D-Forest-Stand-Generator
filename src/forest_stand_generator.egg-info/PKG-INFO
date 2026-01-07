@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: forest_stand_generator
+Version: 0.1.0
+Summary: A simple Python package to generate 3D forest stands for radiative transfer simulations.
+Author-email: Your Name <you@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/forest_stand_generator
+Keywords: forest,3D,LAI,tree,canopy,simulation
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
