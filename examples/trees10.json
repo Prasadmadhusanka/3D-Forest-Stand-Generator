@@ -6,7 +6,12 @@
     "crown_height": 3.0,
     "crown_radius": 2.0,
     "lai": 2.5,
-    "leaf_radius": 0.09,
+    "leaf_radius_params": {
+      "mean": 0.09,
+      "sd": 0.02,
+      "min": 0.05,
+      "max": 0.12
+    },
     "leaf_angle_distribution": "planophile"
   },
   {
@@ -16,7 +21,12 @@
     "crown_height": 3.5,
     "crown_radius": 2.2,
     "lai": 3.8,
-    "leaf_radius": 0.11,
+    "leaf_radius_params": {
+      "mean": 0.11,
+      "sd": 0.02,
+      "min": 0.08,
+      "max": 0.14
+    },
     "leaf_angle_distribution": "erectophile"
   },
   {
@@ -26,7 +36,12 @@
     "crown_height": 4.0,
     "crown_radius": 1.8,
     "lai": 4.0,
-    "leaf_radius": 0.12,
+    "leaf_radius_params": {
+      "mean": 0.12,
+      "sd": 0.02,
+      "min": 0.09,
+      "max": 0.15
+    },
     "leaf_angle_distribution": "uniform"
   },
   {
@@ -36,7 +51,12 @@
     "crown_height": 2.7,
     "crown_radius": 1.6,
     "lai": 2.2,
-    "leaf_radius": 0.08,
+    "leaf_radius_params": {
+      "mean": 0.08,
+      "sd": 0.015,
+      "min": 0.05,
+      "max": 0.1
+    },
     "leaf_angle_distribution": "spherical"
   },
   {
@@ -46,7 +66,12 @@
     "crown_height": 3.8,
     "crown_radius": 2.0,
     "lai": 3.6,
-    "leaf_radius": 0.11,
+    "leaf_radius_params": {
+      "mean": 0.11,
+      "sd": 0.02,
+      "min": 0.08,
+      "max": 0.14
+    },
     "leaf_angle_distribution": "erectophile"
   },
   {
@@ -56,7 +81,12 @@
     "crown_height": 3.2,
     "crown_radius": 1.7,
     "lai": 3.0,
-    "leaf_radius": 0.1,
+    "leaf_radius_params": {
+      "mean": 0.1,
+      "sd": 0.015,
+      "min": 0.07,
+      "max": 0.12
+    },
     "leaf_angle_distribution": "uniform"
   },
   {
@@ -66,7 +96,12 @@
     "crown_height": 4.2,
     "crown_radius": 2.4,
     "lai": 4.3,
-    "leaf_radius": 0.13,
+    "leaf_radius_params": {
+      "mean": 0.13,
+      "sd": 0.02,
+      "min": 0.1,
+      "max": 0.16
+    },
     "leaf_angle_distribution": "erectophile"
   },
   {
@@ -76,7 +111,12 @@
     "crown_height": 3.0,
     "crown_radius": 1.9,
     "lai": 2.7,
-    "leaf_radius": 0.09,
+    "leaf_radius_params": {
+      "mean": 0.09,
+      "sd": 0.015,
+      "min": 0.06,
+      "max": 0.12
+    },
     "leaf_angle_distribution": "planophile"
   },
   {
@@ -86,7 +126,12 @@
     "crown_height": 3.6,
     "crown_radius": 1.9,
     "lai": 3.9,
-    "leaf_radius": 0.12,
+    "leaf_radius_params": {
+      "mean": 0.12,
+      "sd": 0.02,
+      "min": 0.09,
+      "max": 0.15
+    },
     "leaf_angle_distribution": "spherical"
   },
   {
@@ -96,7 +141,12 @@
     "crown_height": 2.8,
     "crown_radius": 1.7,
     "lai": 2.4,
-    "leaf_radius": 0.09,
+    "leaf_radius_params": {
+      "mean": 0.09,
+      "sd": 0.015,
+      "min": 0.06,
+      "max": 0.12
+    },
     "leaf_angle_distribution": "uniform"
   }
 ]

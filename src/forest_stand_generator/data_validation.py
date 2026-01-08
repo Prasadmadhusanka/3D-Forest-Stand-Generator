@@ -9,6 +9,7 @@ def validate_tree_params(tree_params_list):
       2. Each dictionary contains all required keys for tree generation.
       3. All numeric parameters have valid, non-negative or positive values.
       4. Categorical parameters (crown shape and leaf angle distribution) are valid.
+      5. Leaf radius parameters are valid (mean > 0, sd >=0, min <= max, mean in [min, max]).
 
     Raises
     ------
@@ -27,7 +28,7 @@ def validate_tree_params(tree_params_list):
             - crown_height: float > 0
             - crown_radius: float > 0
             - lai: float >= 0
-            - leaf_radius: float > 0
+            - leaf_radius_params: dict with keys "mean", "sd", "min", "max"
             - leaf_angle_distribution: str, one of "uniform", "spherical", "planophile", "erectophile"
     """
 
@@ -49,7 +50,7 @@ def validate_tree_params(tree_params_list):
         required_keys = [
             "trunk_height", "trunk_radius", "crown_shape",
             "crown_height", "crown_radius", "lai",
-            "leaf_radius", "leaf_angle_distribution"
+            "leaf_radius_params", "leaf_angle_distribution"
         ]
         for key in required_keys:
             if key not in params:
@@ -66,8 +67,6 @@ def validate_tree_params(tree_params_list):
             raise ValueError(f"crown_radius must be > 0 at index {idx}")
         if params["lai"] < 0:
             raise ValueError(f"lai must be >= 0 at index {idx}")
-        if params["leaf_radius"] <= 0:
-            raise ValueError(f"leaf_radius must be > 0 at index {idx}")
 
         # Categorical value validation
         if params["crown_shape"] not in allowed_crown_shapes:
@@ -84,6 +83,27 @@ def validate_tree_params(tree_params_list):
                 f"For crown_shape 'sphere', trunk_height ({params['trunk_height']}) "
                 f"must be greater than crown_radius ({params['crown_radius']}) at index {idx}"
             )
+        # --- Validate leaf_radius_params ---
+        leaf_params = params["leaf_radius_params"]
+        if not isinstance(leaf_params, dict):
+            raise ValueError(f"leaf_radius_params must be a dictionary at index {idx}")
+
+        for key in ["mean", "sd", "min", "max"]:
+            if key not in leaf_params:
+                raise ValueError(f"Missing '{key}' in leaf_radius_params at index {idx}")
+            if not isinstance(leaf_params[key], (int, float)):
+                raise ValueError(f"leaf_radius_params['{key}'] must be a number at index {idx}")
+
+        if leaf_params["mean"] <= 0:
+            raise ValueError(f"leaf_radius_params['mean'] must be > 0 at index {idx}")
+        if leaf_params["sd"] < 0:
+            raise ValueError(f"leaf_radius_params['sd'] must be >= 0 at index {idx}")
+        if leaf_params["min"] <= 0 or leaf_params["max"] <= 0:
+            raise ValueError(f"leaf_radius_params['min'] and ['max'] must be > 0 at index {idx}")
+        if leaf_params["min"] > leaf_params["max"]:
+            raise ValueError(f"leaf_radius_params['min'] cannot be greater than ['max'] at index {idx}")
+        if not (leaf_params["min"] <= leaf_params["mean"] <= leaf_params["max"]):
+            raise ValueError(f"leaf_radius_params['mean'] must be between ['min'] and ['max'] at index {idx}")
 
 
 

@@ -156,7 +156,7 @@ def generate_tree(
     crown_height: float,
     crown_radius: float,
     lai: float,
-    leaf_radius: float,
+    leaf_radius_params: dict,
     leaf_angle_distribution: str,
     position: List[float]
 ) -> Dict:
@@ -164,8 +164,9 @@ def generate_tree(
     Generate a single 3D tree model with trunk and leaves.
 
     The function creates a trunk and distributes leaves within the crown
-    volume. Leaf positions and orientations are sampled according to the
-    crown shape and leaf angle distribution. The total number of leaves is
+    volume. Leaf positions and orientations are sampled according to the crown shape
+    and leaf angle distribution. Leaf sizes can now vary per leaf according
+    to a normal distribution defined by `leaf_radius_params`. The total number of leaves is
     derived from the leaf area index (LAI).
 
     Parameters
@@ -183,8 +184,12 @@ def generate_tree(
     lai : float
         Leaf area index, used to calculate the number of leaves as:
         n_leaves = (LAI * crown area) / leaf area.
-    leaf_radius : float
-        Radius of individual leaves.
+    leaf_radius_params : dict
+        Parameters controlling leaf radius variation. Should contain:
+            - "mean" : float, average leaf radius
+            - "sd"   : float, standard deviation of leaf radius
+            - "min"  : float, minimum allowed leaf radius
+            - "max"  : float, maximum allowed leaf radius
     leaf_angle_distribution : str
         Leaf orientation distribution. Supported values:
         "uniform", "spherical", "planophile", "erectophile".
@@ -206,6 +211,8 @@ def generate_tree(
 
     Notes
     -----
+    - Leaf radii are sampled from a normal distribution with mean, sd,
+      and clipped to [min, max].
     - Leaf positions are sampled randomly inside the crown volume based on `crown_shape`.
     - Leaf normals are sampled according to `leaf_angle_distribution`.
     - Crown base is positioned at the top of the trunk.
@@ -222,9 +229,11 @@ def generate_tree(
     # Crown base position
     crown_base_z = position[2] + trunk_height
 
+    mean_leaf_radius = leaf_radius_params["mean"]
+
     # Compute number of leaves from LAI
     crown_area = np.pi * crown_radius**2
-    leaf_area = np.pi * leaf_radius**2
+    leaf_area = np.pi * mean_leaf_radius**2
     n_leaves = int((lai * crown_area) / leaf_area)
 
     leaves = []
@@ -238,6 +247,14 @@ def generate_tree(
             position[1] + local_pos[1],
             crown_base_z + local_pos[2]
         ])
+
+        mean = mean_leaf_radius
+        sd = leaf_radius_params["sd"]
+        min_r = leaf_radius_params["min"]
+        max_r = leaf_radius_params["max"]
+
+        leaf_radius = np.random.normal(mean, sd)
+        leaf_radius = np.clip(leaf_radius, min_r, max_r)
 
         leaf = {
             "center": world_pos,
