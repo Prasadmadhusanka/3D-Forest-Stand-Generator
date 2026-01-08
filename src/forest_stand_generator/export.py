@@ -11,6 +11,7 @@ class NumpyEncoder(json.JSONEncoder):
     This encoder converts NumPy arrays into Python lists so they
     can be written to standard JSON files.
     """
+
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
@@ -40,12 +41,7 @@ def export_forest_stand_to_json(stand: list, filename: str):
     converted to standard Python lists.
     """
     with open(filename, "w", encoding="utf-8") as f:
-        json.dump(
-            stand,
-            f,
-            indent=4,
-            cls=NumpyEncoder
-        )
+        json.dump(stand, f, indent=4, cls=NumpyEncoder)
 
 
 def export_forest_stand_to_csv(stand: list, filename: str):
@@ -84,26 +80,20 @@ def export_forest_stand_to_csv(stand: list, filename: str):
     """
     import csv
 
-    with open(filename, 'w', newline='') as f:
+    with open(filename, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([
-            'tree_id', 'type', 'x', 'y', 'z',
-            'radius', 'nx', 'ny', 'nz'
-        ])
+        writer.writerow(["tree_id", "type", "x", "y", "z", "radius", "nx", "ny", "nz"])
 
         for tid, tree in enumerate(stand):
-            trunk = tree['trunk']
-            x0, y0, z0 = trunk['base']
-            r = trunk['radius']
+            trunk = tree["trunk"]
+            x0, y0, z0 = trunk["base"]
+            r = trunk["radius"]
 
             # Trunk (exported as base point)
-            writer.writerow([tid, 'trunk', x0, y0, z0, r, 0, 0, 0])
+            writer.writerow([tid, "trunk", x0, y0, z0, r, 0, 0, 0])
 
             # Leaves
-            for leaf in tree['leaves']:
-                lx, ly, lz = leaf['center']
-                nx, ny, nz = leaf['normal']
-                writer.writerow([
-                    tid, 'leaf', lx, ly, lz,
-                    leaf['radius'], nx, ny, nz
-                ])
+            for leaf in tree["leaves"]:
+                lx, ly, lz = leaf["center"]
+                nx, ny, nz = leaf["normal"]
+                writer.writerow([tid, "leaf", lx, ly, lz, leaf["radius"], nx, ny, nz])

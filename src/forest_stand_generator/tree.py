@@ -6,49 +6,45 @@ from typing import Dict, List
 
 def sample_leaf_normal(distribution: str) -> np.ndarray:
     """
-        Sample a 3D leaf normal vector according to a specified leaf angle distribution.
+    Sample a 3D leaf normal vector according to a specified leaf angle distribution.
 
-        The leaf normal vector represents the orientation of a leaf in 3D space
-        and is returned as a unit vector [x, y, z].
+    The leaf normal vector represents the orientation of a leaf in 3D space
+    and is returned as a unit vector [x, y, z].
 
-        Parameters
-        ----------
-        distribution : str
-            Leaf angle distribution type. Supported values:
-            - "uniform" or "spherical": samples a random direction uniformly
-            over the surface of the unit sphere.
-            - "planophile": leaves are mostly horizontal, with the normal pointing
-            upward along the z-axis ([0, 0, 1]).
-            - "erectophile": leaves are mostly vertical, with the normal pointing
-            along the x-axis ([1, 0, 0]).
+    Parameters
+    ----------
+    distribution : str
+        Leaf angle distribution type. Supported values:
+        - "uniform" or "spherical": samples a random direction uniformly
+        over the surface of the unit sphere.
+        - "planophile": leaves are mostly horizontal, with the normal pointing
+        upward along the z-axis ([0, 0, 1]).
+        - "erectophile": leaves are mostly vertical, with the normal pointing
+        along the x-axis ([1, 0, 0]).
 
-        Returns
-        -------
-        np.ndarray
-            A 3-element unit vector [x, y, z] representing the leaf normal.
+    Returns
+    -------
+    np.ndarray
+        A 3-element unit vector [x, y, z] representing the leaf normal.
 
-        Raises
-        ------
-        ValueError
-            If an unknown distribution type is provided.
+    Raises
+    ------
+    ValueError
+        If an unknown distribution type is provided.
 
-        Notes
-        -----
-        - For "uniform"/"spherical", the returned vector is a random point on the
-        unit sphere, representing a completely random leaf orientation.
-        - For "planophile" and "erectophile", the returned vector is fixed along
-        the principal axis (z or x) and not random.
-        """
+    Notes
+    -----
+    - For "uniform"/"spherical", the returned vector is a random point on the
+    unit sphere, representing a completely random leaf orientation.
+    - For "planophile" and "erectophile", the returned vector is fixed along
+    the principal axis (z or x) and not random.
+    """
     if distribution in ("uniform", "spherical"):
         # Random direction on unit sphere
         phi = np.random.uniform(0, 2 * np.pi)
         cos_theta = np.random.uniform(-1, 1)
         sin_theta = np.sqrt(1 - cos_theta**2)
-        return np.array([
-            sin_theta * np.cos(phi),
-            sin_theta * np.sin(phi),
-            cos_theta
-        ])
+        return np.array([sin_theta * np.cos(phi), sin_theta * np.sin(phi), cos_theta])
 
     elif distribution == "planophile":
         # Mostly horizontal leaves
@@ -62,14 +58,7 @@ def sample_leaf_normal(distribution: str) -> np.ndarray:
         raise ValueError("Unknown leaf angle distribution")
 
 
-
-
-
-def sample_point_in_crown(
-    shape: str,
-    height: float,
-    radius: float
-) -> np.ndarray:
+def sample_point_in_crown(shape: str, height: float, radius: float) -> np.ndarray:
     """
     Sample a random point inside a tree crown volume of a specified shape.
 
@@ -146,9 +135,6 @@ def sample_point_in_crown(
         raise ValueError("Unsupported crown shape")
 
 
-
-
-
 def generate_tree(
     trunk_height: float,
     trunk_radius: float,
@@ -158,7 +144,7 @@ def generate_tree(
     lai: float,
     leaf_radius_params: dict,
     leaf_angle_distribution: str,
-    position: List[float]
+    position: List[float],
 ) -> Dict:
     """
     Generate a single 3D tree model with trunk and leaves.
@@ -220,11 +206,7 @@ def generate_tree(
     - All positions are returned in world coordinates relative to the tree base.
     """
     # Trunk
-    trunk = {
-        "base": np.array(position),
-        "height": trunk_height,
-        "radius": trunk_radius
-    }
+    trunk = {"base": np.array(position), "height": trunk_height, "radius": trunk_radius}
 
     # Crown base position
     crown_base_z = position[2] + trunk_height
@@ -239,14 +221,14 @@ def generate_tree(
     leaves = []
 
     for _ in range(n_leaves):
-        local_pos = sample_point_in_crown(
-            crown_shape, crown_height, crown_radius
+        local_pos = sample_point_in_crown(crown_shape, crown_height, crown_radius)
+        world_pos = np.array(
+            [
+                position[0] + local_pos[0],
+                position[1] + local_pos[1],
+                crown_base_z + local_pos[2],
+            ]
         )
-        world_pos = np.array([
-            position[0] + local_pos[0],
-            position[1] + local_pos[1],
-            crown_base_z + local_pos[2]
-        ])
 
         mean = mean_leaf_radius
         sd = leaf_radius_params["sd"]
@@ -259,12 +241,8 @@ def generate_tree(
         leaf = {
             "center": world_pos,
             "radius": leaf_radius,
-            "normal": sample_leaf_normal(leaf_angle_distribution)
+            "normal": sample_leaf_normal(leaf_angle_distribution),
         }
         leaves.append(leaf)
 
-    return {
-        "trunk": trunk,
-        "leaves": leaves
-    }
-
+    return {"trunk": trunk, "leaves": leaves}

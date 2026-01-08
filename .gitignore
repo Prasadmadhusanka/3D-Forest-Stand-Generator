@@ -1,7 +1,14 @@
-# Ignore Python cache folders
+# Ignore Python bytecode cache for examples
 examples/__pycache__/
+
+# Ignore Python bytecode cache for the main module
 src/forest_stand_generator/__pycache__/
+
+# Ignore Python bytecode cache for tests
 tests/__pycache__/
 
-# Ignore egg-info folder
-src/forest_stand_generator.egg-info/
+# Ignore pytest cache directory
+.pytest_cache
+
+# Ignore Ruff linter cache
+.ruff_cache

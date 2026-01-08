@@ -68,9 +68,7 @@ def generate_stand(
     elif isinstance(tree_params, list):
         tree_params_list = tree_params
     else:
-        raise ValueError(
-            "tree_params must be a dict or a list of dicts"
-        )
+        raise ValueError("tree_params must be a dict or a list of dicts")
 
     validate_stand_params(
         plot_width=plot_width,
@@ -78,7 +76,7 @@ def generate_stand(
         n_trees=n_trees,
         placement=placement,
         tree_params_list=tree_params_list,
-        min_spacing=min_spacing
+        min_spacing=min_spacing,
     )
 
     tree_list = []
@@ -88,7 +86,6 @@ def generate_stand(
 
     # UNIFORM PLACEMENT (radius-aware)
     if placement == "uniform":
-
         # compute maximum trunk radius
         radii = [params["trunk_radius"] for params in tree_params_list]
         max_radius = max(radii)
@@ -122,7 +119,6 @@ def generate_stand(
 
     # RANDOM PLACEMENT (radius-aware)
     elif placement == "random":
-
         attempts = 0
         max_attempts = n_trees * 50
         positions = []

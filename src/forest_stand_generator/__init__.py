@@ -8,5 +8,4 @@ __all__ = [
     "plot_forest_top_view",
     "export_forest_stand_to_json",
     "export_forest_stand_to_csv",
-
 ]
