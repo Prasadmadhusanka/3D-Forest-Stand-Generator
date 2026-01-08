@@ -9,6 +9,7 @@ src/forest_stand_generator/visualization.py
 src/forest_stand_generator.egg-info/PKG-INFO
 src/forest_stand_generator.egg-info/SOURCES.txt
 src/forest_stand_generator.egg-info/dependency_links.txt
+src/forest_stand_generator.egg-info/requires.txt
 src/forest_stand_generator.egg-info/top_level.txt
 tests/test_stand.py
 tests/test_tree.py

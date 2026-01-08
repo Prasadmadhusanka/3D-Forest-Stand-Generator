@@ -10,8 +10,25 @@ requires-python = ">=3.10"
 license = {text = "MIT"}
 keywords = ["forest", "3D", "LAI", "tree", "canopy", "simulation"]
 
+# ----------------------------
+# runtime dependencies
+# ----------------------------
+dependencies = [
+    "numpy>=1.24",
+    "plotly>=5.0"
+]
+
+# ----------------------------
+# URLs (only strings)
+# ----------------------------
 [project.urls]
-"Homepage" = "https://github.com/Prasadmadhusanka/forest_stand_generator"
+Homepage = "https://github.com/Prasadmadhusanka/3D-Forest-Stand-Generator"
+
+# ----------------------------
+# optional development dependencies
+# ----------------------------
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "black", "mypy"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

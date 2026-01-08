@@ -1,7 +1,7 @@
 # src/forest_stand_generator/stand.py
 
 import numpy as np
-from typing import List, Dict, Optional, Union
+from typing import List, Dict, Union
 from .data_validation import validate_stand_params
 from .tree import generate_tree
 

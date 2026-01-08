@@ -13,7 +13,7 @@ from forest_stand_generator.export import (
 HERE = Path(__file__).resolve().parent
 
 # Load per-tree parameters from JSON
-json_path = HERE / "trees10.json"
+json_path = HERE / "10_trees.json"
 with open(json_path, "r") as f:
     tree_params_list = json.load(f)
 
@@ -21,10 +21,10 @@ with open(json_path, "r") as f:
 # Define stand parameters
 PLOT_WIDTH = 20
 PLOT_LENGTH = 20
-NO_OF_TREES = len(tree_params_list)  # only change if tree_params_list is dict
+NO_OF_TREES = len(tree_params_list)  # Only change this if tree_params_list is a dict
 PLACEMENT = "uniform"
 MIN_SPACING = 1.0  # only needed if PLACEMENT = "random"
-TREE_PARAMS_LIST = tree_params_list
+TREE_PARAMS_LIST = tree_params_list  # List of tree parameter dictionaries
 
 
 # Generate forest stand
