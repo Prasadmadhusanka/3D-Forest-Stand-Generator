@@ -2,6 +2,7 @@
 
 import numpy as np
 from typing import List, Dict, Optional, Union
+from .data_validation import validate_stand_params
 from .tree import generate_tree
 
 
@@ -9,9 +10,9 @@ def generate_stand(
     plot_width: float,
     plot_length: float,
     n_trees: int,
-    placement: str = "uniform",
-    tree_params: Optional[Union[Dict, List[Dict]]] = None,
-    min_spacing: float = 1.0
+    placement: str,
+    min_spacing: float,
+    tree_params: Union[Dict, List[Dict]],
 ) -> List[Dict]:
     """
     Generate a forest stand (collection of trees) on a rectangular plot.
@@ -24,18 +25,17 @@ def generate_stand(
         Length of the rectangular plot (y-direction, in meters or desired units).
     n_trees : int
         Total number of trees to generate.
-    placement : str, optional
+    placement : str
         Placement strategy for trees. Options:
         - "uniform": trees are placed in a regular grid across the plot.
         - "random": trees are placed randomly with minimum spacing enforced.
-        Default is "uniform".
-    tree_params : dict or list of dict, optional
+    min_spacing : float
+        Minimum allowed distance between tree centers when placement='random'.
+        Must be greater than 0 for random placement. Ignored if placement='uniform'.
+    tree_params : dict or list of dict
         Parameters for tree generation, passed to `generate_tree`.
         - dict: same parameters applied to all trees.
         - list of dicts: a separate parameter set for each tree. Length must equal n_trees.
-        Default is None (empty dict for all trees).
-    min_spacing : float, optional
-        Minimum distance between trees (only used for "random" placement). Default is 1.0.
 
     Returns
     -------
@@ -45,19 +45,33 @@ def generate_stand(
     Notes
     -----
     - For "uniform" placement, the function tries to arrange trees in a grid as close to square as possible.
-    - For "random" placement, if the requested number of trees cannot fit with the given `min_spacing`, 
+    - For "random" placement, if the requested number of trees cannot fit with the given `min_spacing`,
       fewer trees may be generated, and a warning is printed.
     - The z-coordinate of all tree positions is set to 0.0 by default.
     """
-    if tree_params is None:
-        tree_params = {}
+
+    # Normalize tree_params
+    if isinstance(tree_params, dict):
+        tree_params_list = [tree_params for _ in range(n_trees)]
+    elif isinstance(tree_params, list):
+        tree_params_list = tree_params
+    else:
+        raise ValueError(
+            "tree_params must be a dict or a list of dicts"
+        )
+
+    validate_stand_params(
+        plot_width=plot_width,
+        plot_length=plot_length,
+        n_trees=n_trees,
+        placement=placement,
+        tree_params_list=tree_params_list,
+        min_spacing=min_spacing
+    )
+
 
     # Detect per-tree parameter list
     per_tree_params = isinstance(tree_params, list)
-    if per_tree_params and len(tree_params) != n_trees:
-        raise ValueError(
-            "When tree_params is a list, its length must equal n_trees"
-        )
 
     tree_list = []
 

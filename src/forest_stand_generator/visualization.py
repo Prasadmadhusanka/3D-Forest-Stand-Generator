@@ -1,16 +1,19 @@
 import numpy as np
 import plotly.graph_objects as go
+from .data_validation import validate_plot
 
 def plot_forest_stand(stand, plot_width=20, plot_length=20, resolution=20):
     """
     Plot 3D forest stand with fixed plot boundaries
-    
+
     Args:
         stand: List of tree dictionaries
         plot_width: Width of the plot (y-axis dimension)
         plot_length: Length of the plot (x-axis dimension)
         resolution: Resolution for cylinder/leaf meshes
     """
+    validate_plot(plot_width, plot_length)
+
     fig = go.Figure()
 
     # Cylinder for trunk (solid)
@@ -100,9 +103,8 @@ def plot_forest_stand(stand, plot_width=20, plot_length=20, resolution=20):
 
         return X, Y, Z, i, j, k
 
-    # -----------------------------
+
     # Plot trunks
-    # -----------------------------
     for tree in stand:
         trunk = tree['trunk']
         x0, y0, z0 = trunk['base']
@@ -117,9 +119,8 @@ def plot_forest_stand(stand, plot_width=20, plot_length=20, resolution=20):
             opacity=1.0
         ))
 
-    # -----------------------------
+
     # Plot leaves
-    # -----------------------------
     for tree in stand:
         for leaf in tree['leaves']:
             X, Y, Z, i, j, k = create_filled_leaf(leaf['center'], leaf['radius'], leaf['normal'], resolution)
@@ -150,12 +151,14 @@ def plot_forest_stand(stand, plot_width=20, plot_length=20, resolution=20):
 def plot_forest_top_view(stand, plot_width=20, plot_length=20):
     """
     Plot 2D top view of forest stand with fixed plot boundaries
-    
+
     Args:
         stand: List of tree dictionaries
         plot_width: Width of the plot (y-axis dimension)
         plot_length: Length of the plot (x-axis dimension)
     """
+    validate_plot(plot_width, plot_length)
+
     fig = go.Figure()
 
     # Plot trunk footprints (circles)
