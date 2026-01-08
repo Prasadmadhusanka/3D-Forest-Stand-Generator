@@ -1,12 +1,19 @@
 import numpy as np
 import plotly.graph_objects as go
 
-def plot_forest_stand(stand, resolution=20):
+def plot_forest_stand(stand, plot_width=20, plot_length=20, resolution=20):
+    """
+    Plot 3D forest stand with fixed plot boundaries
+    
+    Args:
+        stand: List of tree dictionaries
+        plot_width: Width of the plot (y-axis dimension)
+        plot_length: Length of the plot (x-axis dimension)
+        resolution: Resolution for cylinder/leaf meshes
+    """
     fig = go.Figure()
 
-    # -----------------------------
     # Cylinder for trunk (solid)
-    # -----------------------------
     def create_cylinder_mesh(x, y, z_base, height, radius, resolution=20):
         theta = np.linspace(0, 2*np.pi, resolution, endpoint=False)
         circle_x = radius * np.cos(theta) + x
@@ -15,7 +22,7 @@ def plot_forest_stand(stand, resolution=20):
         z_top = np.full(resolution, z_base + height)
 
         # Combine bottom and top vertices + centers
-        vertices_x = np.concatenate([circle_x, circle_x, [x, x]])  # last two are centers
+        vertices_x = np.concatenate([circle_x, circle_x, [x, x]]) 
         vertices_y = np.concatenate([circle_y, circle_y, [y, y]])
         vertices_z = np.concatenate([z_bottom, z_top, [z_base, z_base + height]])
 
@@ -46,9 +53,7 @@ def plot_forest_stand(stand, resolution=20):
 
         return vertices_x, vertices_y, vertices_z, i, j, k
 
-    # -----------------------------
     # Disk for leaf (filled)
-    # -----------------------------
     def create_filled_leaf(center, radius, normal, resolution=20):
         """
         Returns x, y, z, i, j, k for a filled disk oriented by normal
@@ -126,9 +131,15 @@ def plot_forest_stand(stand, resolution=20):
             ))
 
     fig.update_layout(scene=dict(
-        xaxis_title='X', yaxis_title='Y', zaxis_title='Z',
-        aspectmode='data'
+        xaxis_title='X',
+        yaxis_title='Y',
+        zaxis_title='Z',
+        xaxis=dict(range=[0, plot_length]),
+        yaxis=dict(range=[0, plot_width]),
+        aspectmode='manual',
+        aspectratio=dict(x=plot_length, y=plot_width, z=plot_length)
     ))
+
     fig.show()
 
 
@@ -136,12 +147,18 @@ def plot_forest_stand(stand, resolution=20):
 
 
 
-def plot_forest_top_view(stand):
+def plot_forest_top_view(stand, plot_width=20, plot_length=20):
+    """
+    Plot 2D top view of forest stand with fixed plot boundaries
+    
+    Args:
+        stand: List of tree dictionaries
+        plot_width: Width of the plot (y-axis dimension)
+        plot_length: Length of the plot (x-axis dimension)
+    """
     fig = go.Figure()
 
-    # -----------------------------
     # Plot trunk footprints (circles)
-    # -----------------------------
     for tree in stand:
         trunk = tree['trunk']
         x0, y0, _ = trunk['base']
@@ -160,9 +177,7 @@ def plot_forest_top_view(stand):
             fillcolor='saddlebrown'
         ))
 
-    # -----------------------------
     # Plot leaf projections (ellipses)
-    # -----------------------------
     for tree in stand:
         for leaf in tree['leaves']:
             x0, y0, _ = leaf['center']
@@ -201,15 +216,37 @@ def plot_forest_top_view(stand):
                 opacity=0.5
             ))
 
-    # -----------------------------
     # Layout
-    # -----------------------------
     fig.update_layout(
         title='Forest Top View (2D Projection)',
-        xaxis_title='X',
-        yaxis_title='Y',
+        xaxis_title='X (Length)',
+        yaxis_title='Y (Width)',
         showlegend=False,
-        yaxis=dict(scaleanchor='x', scaleratio=1)
+        xaxis=dict(
+            range=[0, plot_length],
+            constrain='domain'
+        ),
+        yaxis=dict(
+            range=[0, plot_width],
+            scaleanchor='x',
+            scaleratio=1,
+            constrain='domain'
+        ),
+        # Add a rectangle to show plot boundaries
+        shapes=[
+            dict(
+                type="rect",
+                xref="x",
+                yref="y",
+                x0=0,
+                y0=0,
+                x1=plot_length,
+                y1=plot_width,
+                line=dict(color="Black", width=2),
+                fillcolor="rgba(0,0,0,0)",
+                layer="below"
+            )
+        ]
     )
 
     fig.show()
