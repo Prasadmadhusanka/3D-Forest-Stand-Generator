@@ -6,7 +6,7 @@
 
 import numpy as np
 import pytest
-from forest_stand_generator.stand import generate_stand
+from forest_stand_generator_3D.stand import generate_stand
 
 
 # SHARED TREE PARAMETERS

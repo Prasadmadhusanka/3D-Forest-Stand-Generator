@@ -1,5 +1,5 @@
 [project]
-name = "forest_stand_generator"
+name = "forest_stand_generator_3D"
 version = "0.1.0"
 description = "A simple Python package to generate 3D forest stands for radiative transfer simulations."
 authors = [
@@ -22,7 +22,7 @@ dependencies = [
 # URLs (only strings)
 # ----------------------------
 [project.urls]
-Homepage = "https://github.com/Prasadmadhusanka/3D-Forest-Stand-Generator"
+Homepage = "https://github.com/Prasadmadhusanka/Forest-Stand-Generator-3D"
 
 # ----------------------------
 # optional development dependencies

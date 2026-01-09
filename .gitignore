@@ -2,7 +2,7 @@
 examples/__pycache__/
 
 # Ignore Python bytecode cache for the main module
-src/forest_stand_generator/__pycache__/
+src/forest_stand_generator_3D/__pycache__/
 
 # Ignore Python bytecode cache for tests
 tests/__pycache__/

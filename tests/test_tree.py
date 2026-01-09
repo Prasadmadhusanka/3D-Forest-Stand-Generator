@@ -6,7 +6,7 @@
 
 import numpy as np
 import pytest
-from forest_stand_generator.tree import (
+from forest_stand_generator_3D.tree import (
     sample_leaf_normal,
     sample_point_in_crown,
     generate_tree,

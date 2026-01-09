@@ -2,9 +2,9 @@
 
 import json
 from pathlib import Path
-from forest_stand_generator.stand import generate_stand
-from forest_stand_generator.visualization import plot_forest_stand, plot_forest_top_view
-from forest_stand_generator.export import (
+from forest_stand_generator_3D.stand import generate_stand
+from forest_stand_generator_3D.visualization import plot_forest_stand, plot_forest_top_view
+from forest_stand_generator_3D.export import (
     export_forest_stand_to_csv,
     export_forest_stand_to_json,
 )

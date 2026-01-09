@@ -1,0 +1,224 @@
+Metadata-Version: 2.4
+Name: forest_stand_generator_3D
+Version: 0.1.0
+Summary: A simple Python package to generate 3D forest stands for radiative transfer simulations.
+Author-email: Prasad Madushanka Dauglas Dambure Liyanage <prasad.dream13@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Prasadmadhusanka/Forest-Stand-Generator-3D
+Keywords: forest,3D,LAI,tree,canopy,simulation
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.24
+Requires-Dist: plotly>=5.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+
+# 3D Forest Stand Generator
+A Python package for generating 3D forest stand scenes suitable for radiative transfer simulations, ecological modeling, and forestry research. The package creates physically plausible 3D representations of trees with customizable trunk, crown, and leaf parameters.
+
+## Features
+#### Tree Generation
+- **Cylindrical trunk geometry**: A vertical cylinder defined by base position, height, and radius. 
+- **Multiple Crown Shapes**: Sphere, Hemisphere (sphere_w_LH), Elipsical, Cylinder, and Cone
+- **Leaf Angle Distributions**: Uniform/spherical, planophile (horizontal), erectophile (vertical)
+- **Leaf Area Index(LAI) based Leaf Count**: Automatically calculates number of leaves from Leaf Area Index (LAI)
+- **Customizable Parameters**: Trunk dimensions, crown size, leaf size, and orientation
+#### Stand Generation
+- **Placement Strategies**: Uniform grid or random placement with minimum spacing
+- **Heterogeneous Stands**: Support for per-tree parameter variations
+- **Rectangular Plots**: Customizable plot dimensions
+- **Density Control**: Specify exact tree count
+#### Visualization & Export
+- **3D Interactive Plots**: Plotly-based visualization with rotation and zoom
+- **2D Top Views**: Plane view of tree footprints and leaf coverage
+- **Data Export**: JSON (hierarchical geometry) and CSV formats (flattened geometry) for compatibility with other tools
+#### Tested
+- Comprehensive test suite using pytest
+  
+## Installation
+### Requirements
+- Python 3.10+
+- NumPy
+- Plotly
+- Pytest (for running tests)
+  
+### From Source
+#### Clone the repository
+```python
+git clone https://github.com/yourusername/forest-stand-generator.git
+cd forest-stand-generator
+```
+#### Install in editable mode
+```python
+pip install -e .
+```
+### Dependencies 
+```python
+pip install numpy plotly
+```
+
+## Package Structure
+```python
+forest_stand_generator/
+├── src/
+│   └── forest_stand_generator/
+│       ├── tree.py
+│       ├── stand.py
+│       ├── visualization.py
+│       ├── export.py
+│       └── __init__.py
+├── tests/
+│   ├── test_tree.py
+│   └── test_stand.py
+├── README.md
+└── pyproject.toml
+```
+## Quick Start
+### Generate a Forest Stand
+```python
+from forest_stand_generator import generate_stand
+
+stand = generate_stand(
+    plot_width=20.0,
+    plot_length=20.0,
+    n_trees=10,
+    placement="uniform",
+    tree_params={
+        "trunk_height": 5.0,
+        "trunk_radius": 0.25,
+        "crown_shape": "sphere",
+        "crown_height": 4.0,
+        "crown_radius": 2.0,
+        "lai": 2.0,
+        "leaf_radius": 0.1,
+        "leaf_angle_distribution": "uniform",
+    }
+)
+```
+### Visualization
+#### 3D Forest View
+```python
+from forest_stand_generator import plot_forest_stand
+
+plot_forest_stand(
+    stand,
+    plot_width=20,
+    plot_length=20
+)
+```
+#### 2D Top View
+```python
+from forest_stand_generator import plot_forest_top_view
+
+plot_forest_top_view(
+    stand,
+    plot_width=20,
+    plot_length=20
+)
+```
+### Exporting Data
+#### Export to JSON
+```python
+from forest_stand_generator import export_forest_stand_to_json
+
+export_forest_stand_to_json(stand, "forest_stand.json")
+```
+#### Export to CSV
+```python
+from forest_stand_generator import export_forest_stand_to_csv
+
+export_forest_stand_to_csv(stand, "forest_stand.csv")
+```
+### Testing
+Run the full test suite with:
+```python
+pytest
+```
+The tests verify:
+- Geometric validity
+- Constraint enforcement
+- Error handling
+- Deterministic behavior of fixed distributions
+- Correct application of per-tree parameters
+
+### API Reference
+
+#### Core Functions
+
+**`generate_tree()`**
+
+Generate a single 3D tree model.
+
+#### Parameters:
+
+- `trunk_height`: Height of the trunk (meters)
+- `trunk_radius`: Radius of the trunk (meters)
+- `crown_shape`: Shape of crown ("sphere", "sphere_w_LH", "cylinder", "cone")
+- `crown_height`: Vertical extent of crown (meters)
+- `crown_radius`: Horizontal radius of crown (meters)
+- `lai`: Leaf Area Index (dimensionless)
+- `leaf_radius`: Radius of individual leaves (meters)
+- `leaf_angle_distribution`: Leaf orientation ("uniform", "planophile", "erectophile")
+- `position: `[x, y, z] coordinates of tree base
+
+**Returns**: Dictionary with trunk and leaves data
+
+**`generate_stand()`**
+
+Generate a forest stand with multiple trees.
+
+#### Parameters:
+
+- `plot_width`: Width of rectangular plot (x-direction, meters)
+- `plot_length`: Length of rectangular plot (y-direction, meters)
+- `n_trees`: Number of trees to generate
+- `placement`: Placement strategy ("uniform" or "random")
+- `tree_params`: Single dict (all trees) or list of dicts (per-tree parameters)
+- `min_spacing`: Minimum distance between trees for random placement (meters)
+
+**Returns**: List of tree dictionaries
+
+### Visualization Functions
+
+**`plot_forest_stand()`**
+
+Create interactive 3D visualization of forest stand.
+
+#### Parameters:
+
+- `stand`: Forest stand data (from generate_stand()
+- `plot_width`: Plot width for boundary display
+- `plot_length`: Plot length for boundary display
+- `resolution`: Mesh resolution for trunks and leaves
+
+**`plot_forest_top_view()`**
+
+Create 2D top-view projection of forest stand.
+
+#### Parameters:
+
+- `stand`: Forest stand data
+- `plot_width`: Plot width for boundary display
+- `plot_length`: Plot length for boundary display
+
+### Export Functions
+
+**`export_forest_stand_to_json()`**
+
+Export forest stand to JSON file.
+
+#### Parameters:
+
+- `stand`: Forest stand data
+- `filename`: Output JSON filename
+
+**`export_forest_stand_to_csv()`**
+
+Export forest stand geometry to CSV file.
+
+#### Parameters:
+
+- `stand`: Forest stand data
+- `filename`: Output CSV filename
