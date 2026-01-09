@@ -367,16 +367,12 @@ def generate_stand(
       is printed.
     """
 ```
-In the program, you can view these docstrings using the `help()` function or the `.__doc__` attribute.
+In the program, you can view these docstrings using the `help()` function.
 
 ```python
 # Check the docstring
 
 help(generate_stand) 
-
-# OR
-
-print(generate_stand.__doc__)
 ```
 
 ### 6.2 Example Scripts
