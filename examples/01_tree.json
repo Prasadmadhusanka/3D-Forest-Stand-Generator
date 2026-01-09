@@ -2,7 +2,7 @@
   {
     "trunk_height": 4.5,
     "trunk_radius": 0.18,
-    "crown_shape": "sphere",
+    "crown_shape": "cone",
     "crown_height": 3.0,
     "crown_radius": 2.0,
     "lai": 2.5,
@@ -12,6 +12,6 @@
       "min": 0.05,
       "max": 0.12
     },
-    "leaf_angle_distribution": "planophile"
+    "leaf_angle_distribution": "uniform"
   }
 ]

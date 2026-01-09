@@ -1,3 +1,5 @@
+__version__ = "0.1.0"
+
 from .stand import generate_stand
 from .visualization import plot_forest_stand, plot_forest_top_view
 from .export import export_forest_stand_to_json, export_forest_stand_to_csv

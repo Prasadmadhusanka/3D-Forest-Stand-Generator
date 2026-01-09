@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 from .data_validation import validate_plot
 
 
-def plot_forest_stand(stand, plot_width=20, plot_length=20, resolution=20):
+def plot_forest_stand(stand, plot_width, plot_length, resolution=20):
     """
     Plot 3D forest stand with fixed plot boundaries
 
@@ -146,7 +146,7 @@ def plot_forest_stand(stand, plot_width=20, plot_length=20, resolution=20):
     fig.show()
 
 
-def plot_forest_top_view(stand, plot_width=20, plot_length=20):
+def plot_forest_top_view(stand, plot_width, plot_length):
     """
     Plot 2D top view of forest stand with fixed plot boundaries
 

@@ -84,7 +84,7 @@ def generate_stand(
     def get_tree_params(i):
         return tree_params_list[i]
 
-    # UNIFORM PLACEMENT (radius-aware)
+    # UNIFORM PLACEMENT
     if placement == "uniform":
         # compute maximum trunk radius
         radii = [params["trunk_radius"] for params in tree_params_list]
@@ -117,7 +117,7 @@ def generate_stand(
                 tree_list.append(tree)
                 count += 1
 
-    # RANDOM PLACEMENT (radius-aware)
+    # RANDOM PLACEMENT
     elif placement == "random":
         attempts = 0
         max_attempts = n_trees * 50

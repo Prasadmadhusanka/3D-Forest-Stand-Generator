@@ -92,7 +92,7 @@ def validate_tree_params(tree_params_list):
                 f"For crown_shape 'sphere', trunk_height ({params['trunk_height']}) "
                 f"must be greater than crown_radius ({params['crown_radius']}) at index {idx}"
             )
-        # --- Validate leaf_radius_params ---
+        # Validate leaf_radius_params
         leaf_params = params["leaf_radius_params"]
         if not isinstance(leaf_params, dict):
             raise ValueError(f"leaf_radius_params must be a dictionary at index {idx}")
