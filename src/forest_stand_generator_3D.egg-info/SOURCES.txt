@@ -1,3 +1,4 @@
+LICENSE
 README.md
 pyproject.toml
 src/forest_stand_generator_3D/__init__.py

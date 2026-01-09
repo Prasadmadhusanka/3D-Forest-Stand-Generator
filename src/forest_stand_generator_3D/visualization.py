@@ -132,6 +132,7 @@ def plot_forest_stand(stand, plot_width, plot_length, resolution=20):
             )
 
     fig.update_layout(
+        title=f"3D Forest Stand (Plot {plot_length} x {plot_width})",
         scene=dict(
             xaxis_title="X",
             yaxis_title="Y",
