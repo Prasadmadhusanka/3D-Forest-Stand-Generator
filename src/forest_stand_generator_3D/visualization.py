@@ -110,7 +110,7 @@ def plot_forest_stand(stand, plot_width, plot_length, resolution=20):
         return X, Y, Z, i, j, k
 
     # Plot trunks
-    for tree in stand:
+    for tree_idx, tree in enumerate(stand, start=1):
         trunk = tree["trunk"]
         x0, y0, z0 = trunk["base"]
         h = trunk["height"]
@@ -118,17 +118,17 @@ def plot_forest_stand(stand, plot_width, plot_length, resolution=20):
 
         X, Y, Z, i, j, k = create_cylinder_mesh(x0, y0, z0, h, r, resolution)
         fig.add_trace(
-            go.Mesh3d(x=X, y=Y, z=Z, i=i, j=j, k=k, color="saddlebrown", opacity=1.0)
+            go.Mesh3d(x=X, y=Y, z=Z, i=i, j=j, k=k, color="saddlebrown", opacity=1.0, name=f"Trunk {tree_idx}", legendgroup=f"Tree {tree_idx}", showlegend=True)
         )
 
     # Plot leaves
-    for tree in stand:
-        for leaf in tree["leaves"]:
+    for tree_idx, tree in enumerate(stand, start=1):
+        for leaf_idx, leaf in enumerate(tree["leaves"], start=1):
             X, Y, Z, i, j, k = create_filled_leaf(
                 leaf["center"], leaf["radius"], leaf["normal"], resolution
             )
             fig.add_trace(
-                go.Mesh3d(x=X, y=Y, z=Z, i=i, j=j, k=k, color="green", opacity=0.7)
+                go.Mesh3d(x=X, y=Y, z=Z, i=i, j=j, k=k, color="green", opacity=0.7, name=f"Tree {tree_idx} – Leaf {leaf_idx}", legendgroup=f"Tree {tree_idx}", showlegend=(leaf_idx==1))
             )
 
     fig.update_layout(
@@ -160,7 +160,7 @@ def plot_forest_top_view(stand, plot_width, plot_length):
     fig = go.Figure()
 
     # Plot trunk footprints (circles)
-    for tree in stand:
+    for i, tree in enumerate(stand, start=1):
         trunk = tree["trunk"]
         x0, y0, _ = trunk["base"]
         r = trunk["radius"]
@@ -177,12 +177,14 @@ def plot_forest_top_view(stand, plot_width, plot_length):
                 mode="lines",
                 line=dict(color="saddlebrown"),
                 fillcolor="saddlebrown",
+                name=f"Tree {i} – Trunk",
+                legendgroup=f"tree_{i}",
             )
         )
 
     # Plot leaf projections (ellipses)
-    for tree in stand:
-        for leaf in tree["leaves"]:
+    for i, tree in enumerate(stand, start=1):
+        for j, leaf in enumerate(tree["leaves"], start=1):
             x0, y0, _ = leaf["center"]
             r = leaf["radius"]
 
@@ -218,6 +220,9 @@ def plot_forest_top_view(stand, plot_width, plot_length):
                     line=dict(color="green"),
                     fillcolor="green",
                     opacity=0.5,
+                    name=f"Tree {i} - Leaf {j}",
+                    legendgroup=f"tree_{i}_leaves",
+                    showlegend=(j == 1),
                 )
             )
 
@@ -226,7 +231,7 @@ def plot_forest_top_view(stand, plot_width, plot_length):
         title="Forest Top View (2D Projection)",
         xaxis_title="X (Length)",
         yaxis_title="Y (Width)",
-        showlegend=False,
+        showlegend=True,
         xaxis=dict(range=[0, plot_length], constrain="domain"),
         yaxis=dict(
             range=[0, plot_width], scaleanchor="x", scaleratio=1, constrain="domain"
