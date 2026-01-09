@@ -42,10 +42,10 @@ stand = generate_stand(
 plot_forest_stand(stand, plot_width=PLOT_WIDTH, plot_length=PLOT_LENGTH)
 
 # Visualize as 2D (top View)
-# plot_forest_top_view(stand, plot_width=PLOT_WIDTH, plot_length=PLOT_LENGTH)
+plot_forest_top_view(stand, plot_width=PLOT_WIDTH, plot_length=PLOT_LENGTH)
 
 # Export to CSV
-# export_forest_stand_to_csv(stand, "forest_stand.csv")
+export_forest_stand_to_csv(stand, "forest_stand.csv")
 
 # Export to JSON
-# export_forest_stand_to_json(stand, "forest_stand.json")
+export_forest_stand_to_json(stand, "forest_stand.json")
