@@ -1,32 +1,39 @@
 [project]
-name = "forest_stand_generator_3D"
+name = "forest-stand-generator-3D"
 version = "0.1.0"
-description = "A simple Python package to generate 3D forest stands for radiative transfer simulations."
-authors = [
-    {name = "Prasad Madushanka Dauglas Dambure Liyanage", email = "prasad.dream13@gmail.com"}
-]
+description = "A Python package to generate 3D forest stands for radiative transfer and ecological simulations."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
+
+authors = [
+    {name = "Prasad Madushanka Dauglas Dambure Liyanage", email = "prasad.dream13@gmail.com"}
+]
+
 keywords = ["forest", "3D", "LAI", "tree", "canopy", "simulation"]
 
-# ----------------------------
-# runtime dependencies
-# ----------------------------
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Scientific/Engineering :: Environmental Science"
+]
+
 dependencies = [
     "numpy>=1.24",
     "plotly>=5.0"
 ]
 
-# ----------------------------
-# URLs (only strings)
-# ----------------------------
 [project.urls]
 Homepage = "https://github.com/Prasadmadhusanka/Forest-Stand-Generator-3D"
+Source = "https://github.com/Prasadmadhusanka/Forest-Stand-Generator-3D"
+Issues = "https://github.com/Prasadmadhusanka/Forest-Stand-Generator-3D/issues"
 
-# ----------------------------
-# optional development dependencies
-# ----------------------------
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "black", "mypy"]
 
