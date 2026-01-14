@@ -1,4 +1,10 @@
-<h1 align="center">Forest Stand Generator 3D v 0.1.0 (Python Package)</h1>
+<h1 align="center">Forest Stand Generator 3D v 0.1.4 (Python Package)</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/pypi/v/forest-stand-generator-3d" alt="PyPI">
+  <img src="https://img.shields.io/pypi/pyversions/forest-stand-generator-3d" alt="Python">
+  <img src="https://img.shields.io/pypi/l/forest-stand-generator-3d" alt="License">
+</p>
 
 <p align="center">
   <img src="https://github.com/Prasadmadhusanka/pm-data-files/blob/main/images/github_readme/forest_stand_generator_3D/package_logo.png?raw=true" alt="Forest Stand Generator 3D" width="350"/>
@@ -49,15 +55,8 @@ The **Forest Stand Generator** is a Python package designed to create **3D fores
 
 ### Installation from Source
 
-Clone the repository from the gitHub repository and install the package in **editable mode**:
-
 ```bash
-git clone https://github.com/Prasadmadhusanka/Forest-Stand-Generator-3D.git
-```
-
-```bash
-cd Forest-Stand-Generator-3D
-pip install -e .
+pip install forest-stand-generator-3d
 ```
 
 ### Verifying the Installation
@@ -69,7 +68,7 @@ import forest_stand_generator_3D
 
 # Check version
 print(forest_stand_generator_3D.__version__)
-# Output: 0.1.0
+# Output: 0.1.4
 ```
 If no errors occur, the package is ready to use.
 
@@ -232,6 +231,9 @@ The **Forest Stand Generator 3D** python package is organized in a modular way t
 
 ```python
 Forest-Stand-Generator-3D/
+├── .github/
+│   └── workflows/
+│       └── publish.yml                 # GitHub Actions workflow for building, testing, and publishing the package to PyPI/TestPyPI
 ├── src/
 │   └── forest_stand_generator_3D/      # Main package
 │       ├── __init__.py                 # Public API and version
@@ -253,6 +255,7 @@ Forest-Stand-Generator-3D/
 ├── LICENSE                             # MIT LICENSE
 └── README.md                           # Project documentation
 ```
+
 ### Module Descriptions
 
 - **`__init__.py`**  
